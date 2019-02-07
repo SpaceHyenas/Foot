@@ -1,0 +1,131 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+struct menuItemType
+ {
+	string menuItem;
+	double menuPrice;	
+	int numOrdered;
+};
+	menuItemType theMenu[8];
+void showMenu();
+int getData(int choice); 
+double Round(double &totalTax); 
+void printCheck(double &tax, double &totalBill); 
+int main()
+{	
+	int choice; 	
+	int number;
+	int x; 
+	double bill;   
+	double totalBill; 
+	double tax; 
+	double taxRate; 
+	double totalTax; 
+	char shouldContinue; 
+	
+	totalBill = 0;
+	taxRate = .05;
+	tax = 0;
+	totalTax = 0;
+	bill = 0;
+	number = 0;
+	choice = 0;
+	x = 0;
+
+  // This part sets the food prices.
+	theMenu[0].menuItem  = "Water";	
+	theMenu[1].menuItem  = "Lemonade";
+	theMenu[2].menuItem  = "Soda";
+	theMenu[3].menuItem  = "Cheeseburger";
+	theMenu[4].menuItem  = "BBQ Cheeseburger";
+	theMenu[5].menuItem  = "Hyena Burger";
+	theMenu[6].menuItem  = "Cookie";
+	theMenu[7].menuItem  = "Ice cream";
+  theMenu[8].menuItem  = "Cheesecake";
+
+// This sets the price of the food.
+	theMenu[0].menuPrice  = 0.99; 
+	theMenu[1].menuPrice  = 1.25;
+	theMenu[2].menuPrice  = 1.25;
+	theMenu[3].menuPrice  = 10;
+	theMenu[4].menuPrice  = 12;
+	theMenu[5].menuPrice  = 15;
+	theMenu[6].menuPrice  = 0.99;
+  theMenu[7].menuPrice = 1.99;
+  theMenu[8].menuPrice = 1.99;
+
+	for (x = 0; x < 9; x++) 
+	{
+		theMenu[x].numOrdered = 0;
+	}
+	
+	do
+	{
+	showMenu();
+	cout << "\n" << endl;
+	choice = getData(number);
+	bill = theMenu[choice].menuPrice + bill; //total of the bill
+	
+	theMenu[choice].numOrdered++; 
+	cout << "\n" << theMenu[choice].numOrdered << setw (20) << theMenu[choice].menuItem << " \n" << endl;
+	cout << "Would you like to place another order?  (Y/N)" << endl; //Allow to purchase more
+	cin >> shouldContinue;
+	}
+	while (shouldContinue == 'Y' || shouldContinue == 'y');
+	cout << endl;
+	totalTax = bill * taxRate;
+	tax = Round(totalTax);
+	
+	totalBill = bill + tax;
+	printCheck(tax, totalBill);
+	return 0;
+} 
+
+void showMenu()
+{
+	int x,y;
+  cout << "Here is our fine selection of possible meals: \n"<<endl;
+
+	for (x = 0; x <9; x++)
+  cout <<"#"<< x+1 << setw(17)<< theMenu[x].menuItem << setw(8) << setprecision(3) << "$"<< theMenu[x].menuPrice << endl; 
+}
+
+int getData(int number)
+{
+	int z;
+	z = 0;
+	cout << "Please choose a food item by the corresponding number." << endl;
+	cin >> z; 
+        z = z - 1;			
+	return z;	
+}
+
+double Round(double &totalTax) //Round to the nearest cent.  
+   {
+   int tax;
+   
+   tax = totalTax * 100.0 + 0.5;
+   return tax / 100.0;
+   }
+
+void printCheck(double &tax, double &totalBill)
+{
+	int x;
+	x = 0;
+	cout << "Welcome to Space Hyena Dine \n" << endl;
+	for (x = 0; x < 9; x++)
+	{
+	if (theMenu[x].numOrdered > 0)
+	{
+	cout << theMenu[x].numOrdered << setw(17) << theMenu[x].menuItem << setw(8)<< right << "$"<< theMenu[x].menuPrice << right << endl; 
+	}
+	else 
+	{
+		cout << "";
+	}
+	}
+	cout << "Tax" << setw (35) << "$"<<tax << endl;
+	cout << "Amount Due" << setw (28) << "$"<<totalBill << endl;
+}
